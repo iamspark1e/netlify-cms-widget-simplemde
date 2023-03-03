@@ -46,7 +46,38 @@ const productionConfig = {
         rules: [
             {
                 test: /\.jsx?$/,
-                loader: 'babel-loader',
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['babel-preset-env', 'babel-preset-react'],
+                        "plugins": [
+                            "transform-export-extensions",
+                            "transform-class-properties",
+                            "transform-object-rest-spread"
+                        ]
+                    }
+                }
+            },
+            {
+                test: /\.css$/,
+                use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+            },
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['babel-preset-env'],
+                        "plugins": [
+                            "transform-export-extensions",
+                            "transform-class-properties",
+                            "transform-object-rest-spread"
+                        ]
+                    }
+                },
+                enforce: 'pre',
             },
         ],
     },

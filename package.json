@@ -39,6 +39,6 @@
   },
   "scripts": {
     "start": "webpack-serve --static public --port 30081",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   }
 }
