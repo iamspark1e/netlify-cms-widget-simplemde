@@ -5,3 +5,5 @@ dev
 .babelrc
 .gitignore
 webpack.config.js
+dist
+!dist/main.js

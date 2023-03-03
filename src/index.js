@@ -2,8 +2,8 @@ import Control from './Control'
 import Preview from './Preview'
 
 if (typeof window !== 'undefined') {
-  window.Control = Control
-  window.Preview = Preview
+  window.SimpleMDEControl = Control
+  window.SimpleMDEPreview = Preview
 }
 
-export { Control, Preview }
+export { Control as SimpleMDEControl, Preview as SimpleMDEPreview }
