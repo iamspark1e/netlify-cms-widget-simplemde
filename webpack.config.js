@@ -5,7 +5,7 @@ const developmentConfig = {
     mode: 'development',
     entry: './dev/index.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'public'),
     },
     optimization: { minimize: true },
     module: {
@@ -39,6 +39,9 @@ const developmentConfig = {
 
 const productionConfig = {
     mode: 'production',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+    },
     module: {
         rules: [
             {
