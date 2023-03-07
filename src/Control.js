@@ -31,13 +31,6 @@ export default class Control extends React.Component {
     console.log(msg)
   }
 
-  handleCustomMedia = () => {
-    this.props.onOpenMediaLibrary({
-      controlID: this.controlID,
-      value: this.state.mediaValue
-    })
-  }
-
   shouldComponentUpdate(nextProps) {
     /**
      * Always update if the value or getAsset changes.
@@ -59,7 +52,12 @@ export default class Control extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    console.log(nextProps.mediaPaths.get(this.controlID))
+    if(nextProps.mediaPaths.get(this.controlID)) {
+      let path = nextProps.mediaPaths.get(this.controlID)
+      setTimeout(() => {
+        nextProps.onChange(nextProps.value + `![${name || ""}](${path})`)
+      }, 200)
+    }
   }
 
   render() {
@@ -68,32 +66,56 @@ export default class Control extends React.Component {
       value,
       onChange,
       classNameWrapper,
+      onOpenMediaLibrary
     } = this.props;
 
-    function handleAppendImage() {
-      this.props.value += `![](/assets/test.png)`
+    const handleAppendImage = () => {
+      onOpenMediaLibrary({
+        controlID: this.controlID,
+        value
+      })
     }
+
+    const imageGallery = {
+      name: "image-gallery",
+      action: handleAppendImage,
+      // text: "Gallery",
+      title: "Open Media Gallery",
+      className: "fa fa-camera-retro"
+    }
+
+    const oldToolbar = [
+      'bold',
+      'italic',
+      "heading", 
+		  "|", // Separator
+      "quote",
+      'unordered-list',
+      'ordered-list',
+      "|", // Separator
+      'link',
+      // 'image', // replaced
+      imageGallery,
+      // 'preview', // preview is not needed in Netlify CMS
+      // 'side-by-side',
+      // 'fullscreen',
+      "|", // Separator
+      'guide'
+    ]
 
     return (
       <div>
         <button onClick={this.handleCustomMedia}>Open Media Gallery</button>
-        <SimpleMDE 
-        id={forID} 
-        className={classNameWrapper} 
-        value={value || ''} 
-        options={{
-          toolbar: [
-            {
-              name: "upload to media gallery",
-              action: handleAppendImage,
-              text: "Images",
-              title: "Open Media Gallery"
-            }
-          ]
-        }}
-        onChange={(val) => {
-          onChange(val);
-        }} />
+        <SimpleMDE
+          id={forID}
+          className={classNameWrapper}
+          value={value || ''}
+          options={{
+            toolbar: oldToolbar
+          }}
+          onChange={(val) => {
+            onChange(val);
+          }} />
       </div>
     );
   }
