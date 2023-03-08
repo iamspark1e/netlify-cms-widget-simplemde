@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 
 const developmentConfig = {
     mode: 'development',
@@ -82,6 +83,10 @@ const productionConfig = {
         ],
     },
     devtool: 'source-map',
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    }
 }
 
 module.exports = process.env.NODE_ENV === 'production' ? productionConfig : developmentConfig

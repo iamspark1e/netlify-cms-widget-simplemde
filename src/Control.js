@@ -7,8 +7,7 @@ export default class Control extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mediaControlIds: [],
-      mediaChangesMark: false
+      mediaControlId: ""
     }
   }
 
@@ -18,7 +17,6 @@ export default class Control extends React.Component {
     value: PropTypes.node,
     classNameWrapper: PropTypes.string.isRequired,
     onOpenMediaLibrary: PropTypes.func.isRequired,
-    onAddAssets: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -33,54 +31,35 @@ export default class Control extends React.Component {
     /**
      * Always update if the value or getAsset changes.
      */
-    // console.log(nextProps.value, this.props.value, nextProps.value === this.props.value)
-    // return false;
     let shouldUpdate = false
-    if (this.props.value !== nextProps.value || this.props.getAsset !== nextProps.getAsset) {
-      if(this.state.mediaChangesMark) {
-        return false;
-      }
-      shouldUpdate = true;
-    }
-
-    /**
-     * If there is a media path for this control in the state object, and that
-     * path is different than the value in `nextProps`, update.
-     */
-    if (this.state.mediaControlIds.length < 1) shouldUpdate = false;
-    const mediaPath = nextProps.mediaPaths.get(this.state.mediaControlIds[this.state.mediaControlIds.length - 1]);
-    if (mediaPath && nextProps.value !== mediaPath) {
+    if ((this.props.value !== nextProps.value && this.state.mediaControlId) || this.props.getAsset !== nextProps.getAsset) {
       shouldUpdate = true;
     }
     return shouldUpdate;
   }
 
-  // componentWillUpdate(nextProps, nextState) {
-  //   if(nextProps.mediaPaths.get(this.controlID)) {
-  //     let path = nextProps.mediaPaths.get(this.controlID)
-  //     setTimeout(() => {
-  //       nextProps.onChange(nextProps.value + `![${name || ""}](${path})`)
-  //     }, 200)
-  //   }
-  // }
-
   componentWillUpdate(nextProps, nextState) {
-    let path = nextProps.mediaPaths.get(this.state.mediaControlIds[this.state.mediaControlIds.length - 1])
-    if(path) {
+    let path = nextProps.mediaPaths.get(this.state.mediaControlId)
+    if (path && nextState.mediaControlId !== "") {
+      var filename = path.replace(/^.*[\\\/]/, '').split('.')[0]
+      nextProps.onChange(nextProps.value + `![${filename || ""}](${path})`)
       this.setState({
-        mediaChangesMark: true,
-        mediaControlIds: this.state.mediaControlIds
-      }, () => {
-        nextProps.onChange(nextProps.value + `![${name || ""}](${path})`)
-        this.setState({
-          mediaChangesMark: false,
-          mediaControlIds: this.state.mediaControlIds
-        })
+        mediaControlId: ""
       })
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  handleAppendImage = () => {
+    let newId = Date.now()
+    this.setState({
+      mediaControlId: newId,
+    }, () => {
+      this.props.onOpenMediaLibrary({
+        controlID: newId,
+        value: this.props.value,
+        multiple: false
+      })
+    })
   }
 
   render() {
@@ -89,27 +68,11 @@ export default class Control extends React.Component {
       value,
       onChange,
       classNameWrapper,
-      onOpenMediaLibrary
     } = this.props;
-
-    const handleAppendImage = () => {
-      let newId = Date.now()
-      this.setState({
-        mediaControlIds: this.state.mediaControlIds.concat(newId),
-        mediaChangesMark: false
-      }, () => {
-        onOpenMediaLibrary({
-          // controlID: this.state.mediaControlIds[this.state.mediaControlIds.length - 1],
-          controlID: newId,
-          value: this.props.value,
-          multiple: false
-        })
-      })
-    }
 
     const imageGallery = {
       name: "image-gallery",
-      action: handleAppendImage,
+      action: this.handleAppendImage,
       // text: "Gallery",
       title: "Open Media Gallery",
       className: "fa fa-camera-retro"
@@ -125,7 +88,7 @@ export default class Control extends React.Component {
       'ordered-list',
       "|", // Separator
       'link',
-      // 'image', // replaced
+      'image', // keep normal image quick tool
       imageGallery,
       // 'preview', // preview is not needed in Netlify CMS
       // 'side-by-side',
