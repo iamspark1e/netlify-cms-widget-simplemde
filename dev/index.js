@@ -1,7 +1,7 @@
 import './bootstrap.js'
 import CMS, { init } from 'netlify-cms'
 import 'netlify-cms/dist/cms.css'
-import { Control, Preview } from '../src'
+import { SimpleMDEControl, SimpleMDEPreview } from '../src'
 
 const config = {
 backend: {
@@ -23,6 +23,6 @@ collections: [{
 }],
 }
 
-CMS.registerWidget('test', Control, Preview)
+CMS.registerWidget('test', SimpleMDEControl, SimpleMDEPreview)
 
 init({ config })

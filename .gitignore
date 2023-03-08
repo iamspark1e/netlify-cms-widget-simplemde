@@ -1,4 +1,6 @@
 node_modules
 dist/**
 !dist/main.js
+!dist/main.js.LICENSE.txt
+!dist/main.js.map
 public
