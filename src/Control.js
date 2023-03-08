@@ -2,15 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { nanoid } from 'nanoid';
 
 export default class Control extends React.Component {
   constructor(props) {
     super(props)
-    let id = nanoid();
-    this.controlID = id;
     this.state = {
-      mediaValue: null,
+      mediaControlIds: [],
+      mediaChangesMark: false
     }
   }
 
@@ -35,29 +33,54 @@ export default class Control extends React.Component {
     /**
      * Always update if the value or getAsset changes.
      */
+    // console.log(nextProps.value, this.props.value, nextProps.value === this.props.value)
+    // return false;
+    let shouldUpdate = false
     if (this.props.value !== nextProps.value || this.props.getAsset !== nextProps.getAsset) {
-      return true;
+      if(this.state.mediaChangesMark) {
+        return false;
+      }
+      shouldUpdate = true;
     }
 
     /**
      * If there is a media path for this control in the state object, and that
      * path is different than the value in `nextProps`, update.
      */
-    const mediaPath = nextProps.mediaPaths.get(this.controlID);
+    if (this.state.mediaControlIds.length < 1) shouldUpdate = false;
+    const mediaPath = nextProps.mediaPaths.get(this.state.mediaControlIds[this.state.mediaControlIds.length - 1]);
     if (mediaPath && nextProps.value !== mediaPath) {
-      return true;
+      shouldUpdate = true;
     }
-
-    return false;
+    return shouldUpdate;
   }
 
+  // componentWillUpdate(nextProps, nextState) {
+  //   if(nextProps.mediaPaths.get(this.controlID)) {
+  //     let path = nextProps.mediaPaths.get(this.controlID)
+  //     setTimeout(() => {
+  //       nextProps.onChange(nextProps.value + `![${name || ""}](${path})`)
+  //     }, 200)
+  //   }
+  // }
+
   componentWillUpdate(nextProps, nextState) {
-    if(nextProps.mediaPaths.get(this.controlID)) {
-      let path = nextProps.mediaPaths.get(this.controlID)
-      setTimeout(() => {
+    let path = nextProps.mediaPaths.get(this.state.mediaControlIds[this.state.mediaControlIds.length - 1])
+    if(path) {
+      this.setState({
+        mediaChangesMark: true,
+        mediaControlIds: this.state.mediaControlIds
+      }, () => {
         nextProps.onChange(nextProps.value + `![${name || ""}](${path})`)
-      }, 200)
+        this.setState({
+          mediaChangesMark: false,
+          mediaControlIds: this.state.mediaControlIds
+        })
+      })
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
   }
 
   render() {
@@ -70,9 +93,17 @@ export default class Control extends React.Component {
     } = this.props;
 
     const handleAppendImage = () => {
-      onOpenMediaLibrary({
-        controlID: this.controlID,
-        value
+      let newId = Date.now()
+      this.setState({
+        mediaControlIds: this.state.mediaControlIds.concat(newId),
+        mediaChangesMark: false
+      }, () => {
+        onOpenMediaLibrary({
+          // controlID: this.state.mediaControlIds[this.state.mediaControlIds.length - 1],
+          controlID: newId,
+          value: this.props.value,
+          multiple: false
+        })
       })
     }
 
@@ -87,8 +118,8 @@ export default class Control extends React.Component {
     const oldToolbar = [
       'bold',
       'italic',
-      "heading", 
-		  "|", // Separator
+      "heading",
+      "|", // Separator
       "quote",
       'unordered-list',
       'ordered-list',
@@ -105,7 +136,6 @@ export default class Control extends React.Component {
 
     return (
       <div>
-        <button onClick={this.handleCustomMedia}>Open Media Gallery</button>
         <SimpleMDE
           id={forID}
           className={classNameWrapper}
