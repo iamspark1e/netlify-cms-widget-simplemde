@@ -7,7 +7,9 @@ export default class Control extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mediaControlId: ""
+      mediaControlId: "",
+      insertPos: null,
+      editor: null
     }
   }
 
@@ -42,17 +44,30 @@ export default class Control extends React.Component {
     let path = nextProps.mediaPaths.get(this.state.mediaControlId)
     if (path && nextState.mediaControlId !== "") {
       var filename = path.replace(/^.*[\\\/]/, '').split('.')[0]
-      nextProps.onChange(nextProps.value + `![${filename || ""}](${path})`)
-      this.setState({
-        mediaControlId: ""
-      })
+      this.insertCustomMark(this.state.insertPos, `![${filename || ""}](${path})`)
     }
   }
 
-  handleAppendImage = () => {
+  insertCustomMark = (pos, mark) => {
+    if(!this.state.editor || !pos) return;
+    this.state.editor.setSelection(pos, pos)
+    this.state.editor.replaceSelection(mark)
+
+    this.setState({
+      editor: this.state.editor,
+      mediaControlId: "",
+      insertPos: null
+    })
+  }
+
+  handleAppendImage = (editor) => {
+    let cm = editor.codemirror
+    let pos = cm.getCursor()
     let newId = Date.now()
     this.setState({
       mediaControlId: newId,
+      insertPos: pos,
+      editor: cm
     }, () => {
       this.props.onOpenMediaLibrary({
         controlID: newId,
