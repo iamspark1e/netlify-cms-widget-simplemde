@@ -4,7 +4,11 @@
   "description": "A replacement of original Netlify CMS Markdown widget, using SimpleMDE (or its forks)",
   "main": "dist/main.js",
   "keywords": [
-    "netlifycms-widget"
+    "netlify-cms-widget",
+    "netlify-cms",
+    "markdown",
+    "simplemde",
+    "easymde"
   ],
   "repository": {
     "url": "git@github.com:iamspark1e/netlify-cms-widget-simplemde.git"
