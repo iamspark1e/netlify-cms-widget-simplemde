@@ -1,4 +1,7 @@
-# netlify-cms-widget-simplemde
+<h1 align='center'>netlify-cms-widget-simplemde</h1>
+
+<p align='center'>Replacement of markdown widget</p>
+<br />
 
 ### Quick Start
 

@@ -6,6 +6,10 @@
   "keywords": [
     "netlifycms-widget"
   ],
+  "repository": {
+    "url": "git@github.com:iamspark1e/netlify-cms-widget-simplemde.git"
+  },
+  "homepage": "https://github.com/iamspark1e/netlify-cms-widget-simplemde",
   "author": "iamspark1e",
   "license": "MIT",
   "devDependencies": {
