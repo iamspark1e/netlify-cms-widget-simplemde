@@ -5,7 +5,9 @@
   "main": "dist/main.js",
   "keywords": [
     "netlify-cms-widget",
+    "decap-cms-widget",
     "netlify-cms",
+    "decap-cms",
     "markdown",
     "simplemde",
     "easymde"

@@ -7,3 +7,4 @@ dev
 webpack.config.js
 dist/**
 !dist/main.js
+!dist/main.js.LICENSE.txt
