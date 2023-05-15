@@ -105,9 +105,11 @@ export default class Control extends React.Component {
       'link',
       'image', // keep normal image quick tool
       imageGallery,
+      '|',
       // 'preview', // preview is not needed in Netlify CMS
       // 'side-by-side',
       // 'fullscreen',
+      'code',
       "|", // Separator
       'guide'
     ]
