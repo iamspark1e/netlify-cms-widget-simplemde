@@ -25,3 +25,12 @@ Then, change your original `"widget": "markdown"` into `"widget": "simplemde"`.
 Just so simple, I tested Chinese and works well. (Old markdown widget cannot input Chinese characters fluently.)
 
 Any feature or suggests are welcomed!
+
+### Purpose
+
+I made this widget because the original rich-text editor is not doing well with Chinese characters (similar bugs for IME). The bug has not been solved until the CMS's name change.
+
+> For example this, XD. ![ianstormtaylor/slate issue #5066](https://user-images.githubusercontent.com/18358438/181482462-8517f926-0f3a-4f81-9c21-034ded4fc692.gif)
+
+
+Therefore, many features about rich text editing are NOT added into my editor. Markdown is the first.
