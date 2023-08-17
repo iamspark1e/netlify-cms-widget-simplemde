@@ -21,16 +21,16 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
     "netlify-cms": "^2.10.192",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "react": "^16",
+    "react-dom": "^16",
     "vite": "^4.4.9",
     "vite-plugin-css-injected-by-js": "^3.3.0"
   },
   "dependencies": {
     "easymde": "^2.18.0",
-    "marked": "^4.2.12",
+    "marked": "^7.0.3",
     "prop-types": "^15.8.1",
-    "react-simplemde-editor": "^4"
+    "react-simplemde-editor": "^5.2.0"
   },
   "peerDependencies": {
     "react": "^16"
@@ -41,6 +41,6 @@
   "scripts": {
     "dev": "vite",
     "build": "NODE_ENV=production vite build",
-    "preview": "vite preview"
+    "preview": "NODE_ENV=development vite build && vite preview"
   }
 }

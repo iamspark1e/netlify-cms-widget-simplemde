@@ -5,6 +5,6 @@ dev
 .babelrc
 .gitignore
 webpack.config.js
-dist/**
-!dist/main.js
-!dist/main.js.LICENSE.txt
+!dist/**
+#!dist/main.js
+#!dist/main.js.LICENSE.txt
