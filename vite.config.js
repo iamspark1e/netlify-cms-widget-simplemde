@@ -1,16 +1,16 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { resolve } from 'path'
 
-const devConfig = defineConfig({
+const devConfig = {
     plugins: [react()],
     server: {
         port: process.env.PORT || 30081,
         host: '0.0.0.0'
     }
-})
-const prodConfig = defineConfig({
+}
+const prodConfig = {
     plugins: [react(), cssInjectedByJsPlugin()],
     build: {
         lib: {
@@ -21,20 +21,20 @@ const prodConfig = defineConfig({
             fileName: 'main',
             formats: ['iife'],
         },
-        sourcemap: true
+        sourcemap: true,
         // rollupOptions: {
         //     // make sure to externalize deps that shouldn't be bundled
         //     // into your library
-        //     external: ['vue'],
+        //     external: ['react'],
         //     output: {
         //         // Provide global variables to use in the UMD build
         //         // for externalized deps
         //         globals: {
-        //             vue: 'Vue',
+        //             react: 'React',
         //         },
         //     },
         // },
     }
-})
+}
 
-export default (import.meta.env.NODE_ENV === 'production' ? prodConfig : devConfig)
+export default defineConfig(({ mode }) => mode === 'production' ? prodConfig : devConfig)
