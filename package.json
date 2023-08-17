@@ -42,6 +42,7 @@
   "dependencies": {
     "easymde": "^2.18.0",
     "marked": "^4.2.12",
+    "parse-md": "^3.0.3",
     "prop-types": "^15.8.1",
     "react-simplemde-editor": "^4"
   },

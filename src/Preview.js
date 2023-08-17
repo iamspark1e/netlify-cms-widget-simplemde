@@ -10,7 +10,11 @@ export default function Preview({ value, getAsset }) {
   }
 
   marked.use({ renderer: previewRenderer })
-  const styled = `.markdown-body pre {
+  const styled = `
+.markdown-body {
+  padding: 10px;
+}
+.markdown-body pre {
     max-width: 100%;
     overflow-x: auto;
 }
@@ -20,6 +24,7 @@ export default function Preview({ value, getAsset }) {
     margin: 0 auto;
 }`
   return <div>
+    <link href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.2.0/github-markdown.min.css" rel="stylesheet"></link>
     <style>{styled}</style>
     <div className='markdown-body' dangerouslySetInnerHTML={{ __html: marked.parse(value) }}></div>
   </div>;
