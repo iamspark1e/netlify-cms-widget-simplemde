@@ -22,6 +22,9 @@ const prodConfig = {
             formats: ['iife'],
         },
         sourcemap: true,
+        define: {
+            'process.env.NODE_ENV': '"production"'
+        },
         // rollupOptions: {
         //     // make sure to externalize deps that shouldn't be bundled
         //     // into your library
