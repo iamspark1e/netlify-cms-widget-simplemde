@@ -40,6 +40,7 @@ const developmentConfig = {
 
 const productionConfig = {
     mode: 'production',
+    entry: './src/index.jsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
