@@ -16,7 +16,7 @@ const prodConfig = defineConfig({
         lib: {
             // Could also be a dictionary or array of multiple entry points
             entry: resolve(__dirname, 'src/index.jsx'),
-            name: 'main',
+            name: 'SimpleMDEControl',
             // the proper extensions will be added
             fileName: 'main',
             formats: ['iife'],
@@ -37,4 +37,4 @@ const prodConfig = defineConfig({
     }
 })
 
-export default (process.env.NODE_ENV === 'production' ? prodConfig : devConfig)
+export default (import.meta.env.NODE_ENV === 'production' ? prodConfig : devConfig)
