@@ -1,6 +1,6 @@
 {
   "name": "netlify-cms-widget-simplemde",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A replacement of original Netlify CMS Markdown widget, using SimpleMDE (or its forks)",
   "main": "dist/main.iife.js",
   "keywords": [
