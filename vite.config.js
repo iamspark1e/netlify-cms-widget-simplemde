@@ -5,7 +5,6 @@ import { resolve } from 'path'
 
 export default defineConfig(({ command, mode }) => {
     if(mode !== 'production' || command === 'serve') {
-        // console.log(process.env.PORT)
         return {
             plugins: [react()],
             server: {

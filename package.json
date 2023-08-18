@@ -30,7 +30,7 @@
     "easymde": "^2.18.0",
     "marked": "^7.0.3",
     "prop-types": "^15.8.1",
-    "react-simplemde-editor": "^5.2.0"
+    "react-simplemde-editor": "^4"
   },
   "peerDependencies": {
     "react": "^16"
@@ -41,6 +41,6 @@
   "scripts": {
     "dev": "vite",
     "build": "NODE_ENV=production vite build",
-    "preview": "NODE_ENV=development vite build && vite preview"
+    "preview": "vite preview"
   }
 }
