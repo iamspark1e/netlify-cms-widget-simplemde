@@ -1,7 +1,7 @@
 import './bootstrap.js'
 import CMS, { init } from 'netlify-cms'
 import 'netlify-cms/dist/cms.css'
-import { SimpleMDEControl, SimpleMDEPreview } from '../src'
+import { SimpleMDEControl, SimpleMDEPreview } from '../src/index.jsx'
 
 const config = {
 backend: {

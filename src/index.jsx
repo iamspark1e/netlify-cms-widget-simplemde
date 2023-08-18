@@ -1,5 +1,5 @@
-import Control from './Control'
-import Preview from './Preview'
+import Control from './Control.jsx'
+import Preview from './Preview.jsx'
 
 if (typeof window !== 'undefined') {
   window.SimpleMDEControl = Control
