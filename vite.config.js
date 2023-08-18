@@ -27,7 +27,7 @@ export default defineConfig(({ command, mode }) => {
                 name: 'SimpleMDEControl',
                 // the proper extensions will be added
                 fileName: 'main',
-                formats: ['umd'],
+                formats: ['umd', 'iife'],
             },
             sourcemap: true,
             define: {
