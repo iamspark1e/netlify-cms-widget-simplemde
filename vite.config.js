@@ -5,7 +5,7 @@ import { resolve } from 'path'
 import replace from '@rollup/plugin-replace'
 
 export default defineConfig(({ command, mode }) => {
-    if(mode !== 'production' || command === 'serve') {
+    if (mode !== 'production' || command === 'serve') {
         return {
             plugins: [react()],
             server: {
@@ -27,9 +27,14 @@ export default defineConfig(({ command, mode }) => {
             lib: {
                 // Could also be a dictionary or array of multiple entry points
                 entry: resolve(__dirname, 'src/index.jsx'),
-                name: 'SimpleMDEControl',
+                name: 'SimpleMDE',
                 // the proper extensions will be added
-                fileName: 'main',
+                // fileName: 'main',
+                fileName: (format, entryName) => {
+                    // const extension = format === 'iife' ? 'js' : 'cjs';
+                    // return `js/${entryName}.${extension}`;
+                    return format === 'iife' ? "main.js" : `main.${format}.js`
+                  },
                 formats: ['umd', 'iife'],
             },
             sourcemap: true
