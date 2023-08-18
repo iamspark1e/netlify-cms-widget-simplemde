@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import { resolve } from 'path'
+import replace from '@rollup/plugin-replace'
 
 export default defineConfig(({ command, mode }) => {
     if(mode !== 'production' || command === 'serve') {
@@ -19,7 +20,9 @@ export default defineConfig(({ command, mode }) => {
         }
     }
     return {
-        plugins: [react(), cssInjectedByJsPlugin()],
+        plugins: [react(), cssInjectedByJsPlugin(), replace({
+            'process.env.NODE_ENV': JSON.stringify(mode),
+        })],
         build: {
             lib: {
                 // Could also be a dictionary or array of multiple entry points
@@ -29,10 +32,7 @@ export default defineConfig(({ command, mode }) => {
                 fileName: 'main',
                 formats: ['umd', 'iife'],
             },
-            sourcemap: true,
-            define: {
-                'process.env.NODE_ENV': JSON.stringify(mode),
-            }
+            sourcemap: true
             // rollupOptions: {
             //     // make sure to externalize deps that shouldn't be bundled
             //     // into your library

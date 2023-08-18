@@ -19,6 +19,7 @@
   "author": "iamspark1e",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.2",
     "@vitejs/plugin-react": "^4.0.4",
     "netlify-cms": "^2.10.192",
     "react": "^16",
