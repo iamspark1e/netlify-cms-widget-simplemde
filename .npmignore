@@ -1,10 +1,9 @@
 node_modules
 public
-dev
-.github
-.babelrc
+index.html
 .gitignore
-webpack.config.js
-!dist/**
-#!dist/main.js
-#!dist/main.js.LICENSE.txt
+vite.config.js
+dist
+src/*
+!dist/main.js
+!dist/main.js.map

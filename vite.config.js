@@ -1,55 +1,52 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-import { resolve } from 'path'
 import replace from '@rollup/plugin-replace'
+import copy from 'rollup-plugin-copy'
 
 export default defineConfig(({ command, mode }) => {
     if (mode !== 'production' || command === 'serve') {
         return {
             plugins: [react()],
             server: {
-                port: process.env.PORT || 30081,
+                port: process.env.PORT || 8080,
                 host: '0.0.0.0'
             },
             preview: {
-                port: process.env.PORT || 30081,
+                port: process.env.PORT || 8080,
                 host: '0.0.0.0'
             },
             publicDir: 'public'
         }
     }
     return {
-        plugins: [react(), cssInjectedByJsPlugin(), replace({
-            'process.env.NODE_ENV': JSON.stringify(mode),
-        })],
+        plugins: [
+            react(),
+            cssInjectedByJsPlugin(),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify(mode),
+            }),
+            // The `rollup-plugin-copy` plugin is not necessary if you are not need to run in `preview` mode, but I suggest to test in this mode for safe.
+            copy({
+                targets: [{
+                    src: 'index.html',
+                    dest: 'dist',
+                    transform: (contents, filename) => contents.toString().replace('<script type="module" src="./src/main.js"></script>', '<script src="./main.js"></script>')
+                }],
+                hook: "writeBundle"
+            })
+        ],
         build: {
             lib: {
-                // Could also be a dictionary or array of multiple entry points
-                entry: resolve(__dirname, 'src/index.jsx'),
-                name: 'SimpleMDE',
-                // the proper extensions will be added
-                // fileName: 'main',
+                entry: resolve(__dirname, 'src/main.js'),
+                name: 'main',
                 fileName: (format, entryName) => {
-                    // const extension = format === 'iife' ? 'js' : 'cjs';
-                    // return `js/${entryName}.${extension}`;
                     return format === 'iife' ? "main.js" : `main.${format}.js`
-                  },
-                formats: ['umd', 'iife'],
+                },
+                formats: ['iife'], // You can add other formats if you need.
             },
             sourcemap: true
-            // rollupOptions: {
-            //     // make sure to externalize deps that shouldn't be bundled
-            //     // into your library
-            //     external: ['react'],
-            //     output: {
-            //         // Provide global variables to use in the UMD build
-            //         // for externalized deps
-            //         globals: {
-            //             react: 'React',
-            //         },
-            //     },
-            // },
         }
     }
 })
